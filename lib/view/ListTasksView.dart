@@ -46,6 +46,7 @@ class _ListTasksViewState extends State<ListTasksView> {
           child: Icon(Icons.add),
              onPressed: () {
             Navigator.pushNamed(context, 'addTasks');
+
              }),
       ),
     );

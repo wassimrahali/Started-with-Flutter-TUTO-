@@ -157,6 +157,7 @@ class _AddTaskViewState extends State<AddTaskView> {
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(content: Text('Processing Data')),
                 );
+                Navigator.pushReplacementNamed(context, "addTasks");
               }
             },
             child: Icon(Icons.done),
@@ -164,5 +165,13 @@ class _AddTaskViewState extends State<AddTaskView> {
         );
       },
     );
+  }
+  @override
+  void dispose() {
+    // Clean up the controller when the widget is removed from the widget tree.
+    // This also removes the _printLatestValue listener.
+ title.dispose();
+ description.dispose();
+    super.dispose();
   }
 }
