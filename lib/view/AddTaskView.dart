@@ -155,9 +155,9 @@ class _AddTaskViewState extends State<AddTaskView> {
                     title.text, false, description.text, _focusedDay);
                 model.addTasks(_newTask);
                 ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Processing Data')),
+                  const SnackBar(content: Text('Task Saved ...')),
                 );
-                Navigator.pushReplacementNamed(context, "addTasks");
+                Navigator.pushReplacementNamed(context, 'listTasks');
               }
             },
             child: Icon(Icons.done),
