@@ -11,6 +11,11 @@ class TaskModel extends ChangeNotifier {
   ];
 
   List<Task> get todoTasks => _toDoTasks;
+  int countTasksByDate(DateTime _datetime) => _toDoTasks.where((task) =>
+  task.deadline.day== _datetime.day &&
+  task.deadline.month== _datetime.month &&
+  task.deadline.year== _datetime.year).length;
+
   void addTasks(Task _task){
     _toDoTasks.add(_task);
     notifyListeners();

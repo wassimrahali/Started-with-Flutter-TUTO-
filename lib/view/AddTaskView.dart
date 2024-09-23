@@ -19,6 +19,10 @@ final title = TextEditingController();
 final description = TextEditingController();
 
 class _AddTaskViewState extends State<AddTaskView> {
+  // Move the TextEditingController declarations inside the state class
+  final TextEditingController title = TextEditingController();
+  final TextEditingController description = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Consumer<TaskModel>(
@@ -49,17 +53,24 @@ class _AddTaskViewState extends State<AddTaskView> {
                     },
                     calendarBuilders: CalendarBuilders(
                       markerBuilder: (context, datetime, events) {
-                        return Container(
+                        return model.countTasksByDate(datetime) > 0 ?Container(
                           width: 20,
                           height: 15,
                           decoration: BoxDecoration(
-                            color: globals.primaries[3],
+                            color: globals
+                                .primaries[model.countTasksByDate(datetime)],
                             borderRadius: BorderRadius.circular(4.0),
                           ),
-                        );
+                          child: Center(
+                            child: Text(
+                              model.countTasksByDate(datetime).toString(),
+                              style: TextStyle(color: Colors.white),
+                            ),
+                          ),
+                        ):Container();
                       },
                       selectedBuilder: (context, _datetime, _focusedDay) {
-                        return Container(
+                        return Container (
                           decoration: BoxDecoration(
                             color: globals.primaries[5],
                             borderRadius: BorderRadius.circular(4.0),
@@ -85,23 +96,22 @@ class _AddTaskViewState extends State<AddTaskView> {
                         hintText: "Enter Task Title",
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(5.0),
-                          borderSide: BorderSide(
-                              color: Colors.blue, width: 2.0),
+                          borderSide:
+                              BorderSide(color: Colors.blue, width: 2.0),
                         ),
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(5.0),
-                          borderSide: BorderSide(
-                              color: Colors.blue, width: 2.0),
+                          borderSide:
+                              BorderSide(color: Colors.blue, width: 2.0),
                         ),
                         errorBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(5.0),
-                          borderSide: BorderSide(
-                              color: Colors.red, width: 2.0),
+                          borderSide: BorderSide(color: Colors.red, width: 2.0),
                         ),
                         focusedErrorBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(5.0),
-                          borderSide: BorderSide(
-                              color: Colors.purple, width: 2.0),
+                          borderSide:
+                              BorderSide(color: Colors.purple, width: 2.0),
                         ),
                       ),
                       validator: (value) {
@@ -123,23 +133,22 @@ class _AddTaskViewState extends State<AddTaskView> {
                         hintText: "Enter a Description (optional)",
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(5.0),
-                          borderSide: BorderSide(
-                              color: Colors.blue, width: 2.0),
+                          borderSide:
+                              BorderSide(color: Colors.blue, width: 2.0),
                         ),
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(5.0),
-                          borderSide: BorderSide(
-                              color: Colors.blue, width: 2.0),
+                          borderSide:
+                              BorderSide(color: Colors.blue, width: 2.0),
                         ),
                         errorBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(5.0),
-                          borderSide: BorderSide(
-                              color: Colors.red, width: 2.0),
+                          borderSide: BorderSide(color: Colors.red, width: 2.0),
                         ),
                         focusedErrorBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(5.0),
-                          borderSide: BorderSide(
-                              color: Colors.purple, width: 2.0),
+                          borderSide:
+                              BorderSide(color: Colors.purple, width: 2.0),
                         ),
                       ),
                     ),
@@ -151,8 +160,8 @@ class _AddTaskViewState extends State<AddTaskView> {
           floatingActionButton: FloatingActionButton(
             onPressed: () {
               if (_formKey.currentState!.validate()) {
-                Task _newTask = Task(
-                    title.text, false, description.text, _focusedDay);
+                Task _newTask =
+                    Task(title.text, false, description.text, _focusedDay);
                 model.addTasks(_newTask);
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(content: Text('Task Saved ...')),
@@ -166,12 +175,11 @@ class _AddTaskViewState extends State<AddTaskView> {
       },
     );
   }
+
   @override
   void dispose() {
-    // Clean up the controller when the widget is removed from the widget tree.
-    // This also removes the _printLatestValue listener.
- title.dispose();
- description.dispose();
+    title.dispose();
+    description.dispose();
     super.dispose();
   }
 }
