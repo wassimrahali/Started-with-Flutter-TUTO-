@@ -1,6 +1,7 @@
 import 'package:first_app/widget/ListAllTaskWidget.dart';
-import 'package:first_app/widget/ListTaskWidget.dart';
+import 'package:first_app/widget/ListTaskByTabWidget.dart';
 import 'package:flutter/material.dart';
+import 'package:first_app/libary/globals.dart' as globals;
 
 
 class ListTasksView extends StatefulWidget {
@@ -33,10 +34,11 @@ class _ListTasksViewState extends State<ListTasksView> {
           body: TabBarView(
             children: [
               ListAllTaskWidget(),
-              ListTaskWidget(),
-              ListTaskWidget(),
-              ListTaskWidget(),
-              ListTaskWidget(),
+              ListTaskByTabWidget(tabKey: globals.today),
+              ListTaskByTabWidget(tabKey: globals.tomorrow),
+              ListTaskByTabWidget(tabKey: globals.thisWeek),
+              ListTaskByTabWidget(tabKey: globals.nextWeek),
+
             ],
           ),
           floatingActionButton: FloatingActionButton(
