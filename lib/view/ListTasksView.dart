@@ -15,7 +15,7 @@ class _ListTasksViewState extends State<ListTasksView> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 6,
+      length: 5,
       child: Scaffold(
           appBar: AppBar(
             title: const Text("List Tasks"),
@@ -28,13 +28,11 @@ class _ListTasksViewState extends State<ListTasksView> {
                 Tab(text: "Tomorrow"),
                 Tab(text: "This Week"),
                 Tab(text: "Next Week"),
-                Tab(text: "Next Week"),
               ],
             ),
           ),
           body: TabBarView(
             children: [
-              ListTaskWidget(),
               ListTaskWidget(),
               ListTaskWidget(),
               ListTaskWidget(),

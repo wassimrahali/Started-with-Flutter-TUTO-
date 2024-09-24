@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:first_app/libary/globals.dart' as globals;
 
 import '../provider/TaskProvider.dart';
 
@@ -16,7 +17,7 @@ class _ListTaskWidgetState extends State<ListTaskWidget> {
     return Consumer<TaskModel>(
         builder: (context, model, child) {
           return ListView.builder(
-            itemCount: model.todoTasks.length,
+            itemCount: model.todoTasks[globals.today]!.length,
             itemBuilder: (BuildContext context, int index) {
               return Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -30,12 +31,12 @@ class _ListTaskWidgetState extends State<ListTaskWidget> {
                       borderRadius: BorderRadius.circular(10)
                   ),
                   child: CheckboxListTile(
-                    title: Text(model.todoTasks[index].title),
-                    value: model.todoTasks[index].status,
-                    subtitle: Text(model.todoTasks[index].deadline.toString()),
+                    title: Text(model.todoTasks[globals.today]![index].title),
+                    value: model.todoTasks[globals.today]![index].status,
+                    subtitle: Text(model.todoTasks[globals.today]![index].deadline.toString()),
                     onChanged: (bool? value) {
-                      model.markAsDone(index, value!);
-                      print(model.todoTasks[index].status);
+                      model.markAsDone(globals.today,index);
+                      print(model.todoTasks[globals.today]![index].status);
                     },
                     controlAffinity: ListTileControlAffinity.leading,
                   ),

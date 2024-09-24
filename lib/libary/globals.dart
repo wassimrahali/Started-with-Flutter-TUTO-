@@ -22,3 +22,12 @@ const List<MaterialColor> primaries = <MaterialColor>[
   Colors.brown,
   Colors.blueGrey,
 ];
+
+
+const late = "late";
+const today = "today";
+const tomorrow= "tomorrow";
+const thisWeek ="thisWeek";
+const nextWeek="nextWeek";
+const thisMonth="thisMonth";
+const later="later";
