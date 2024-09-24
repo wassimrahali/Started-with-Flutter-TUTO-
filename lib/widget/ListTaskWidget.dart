@@ -14,36 +14,39 @@ class ListTaskWidget extends StatefulWidget {
 class _ListTaskWidgetState extends State<ListTaskWidget> {
   @override
   Widget build(BuildContext context) {
-    return Consumer<TaskModel>(
-        builder: (context, model, child) {
-          return ListView.builder(
-            itemCount: model.todoTasks[globals.today]!.length,
-            itemBuilder: (BuildContext context, int index) {
-              return Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Container(
-                  decoration: BoxDecoration(
-                      color: Colors.purple,
-                      border: Border.all(
-                        color: Colors.white,
-                      ),
-                      borderRadius: BorderRadius.circular(10)
-                  ),
-                  child: CheckboxListTile(
-                    title: Text(model.todoTasks[globals.today]![index].title),
+    return Consumer<TaskModel>(builder: (context, model, child) {
+      return Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: ListView.builder(
+          itemCount: model.todoTasks[globals.today]!.length,
+          itemBuilder: (BuildContext context, int index) {
+            return Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Container(
+                decoration: BoxDecoration(
+                    color: Colors.purple,
+                    border: Border.all(
+                      color: Colors.white,
+                    ),
+                    borderRadius: BorderRadius.circular(10)),
+                child: ListTile(
+                  contentPadding: EdgeInsets.zero,
+                  title: Text(model.todoTasks[globals.today]![index].title),
+                  subtitle: Text(
+                      model.todoTasks[globals.today]![index].deadline.toString()),
+                  leading: Checkbox(
                     value: model.todoTasks[globals.today]![index].status,
-                    subtitle: Text(model.todoTasks[globals.today]![index].deadline.toString()),
                     onChanged: (bool? value) {
-                      model.markAsDone(globals.today,index);
+                      model.markAsDone(globals.today, index);
                       print(model.todoTasks[globals.today]![index].status);
                     },
-                    controlAffinity: ListTileControlAffinity.leading,
                   ),
                 ),
-              );
-            },
-          );
-        }
-    );
+              ),
+            );
+          },
+        ),
+      );
+    });
   }
 }
