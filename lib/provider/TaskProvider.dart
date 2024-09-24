@@ -65,9 +65,9 @@ class TaskModel extends ChangeNotifier {
       return globals.today;
     } else if (deadline.isTomorrow) {
       return globals.tomorrow;
-    } else if (deadline.getWeek == DateTime.now().getWeek) {
+    } else if (deadline.getWeek == DateTime.now().getWeek && deadline.year==DateTime.now().year) {
       return globals.thisWeek;
-    } else if (deadline.getWeek == DateTime.now().getWeek + 1) {
+    } else if (deadline.getWeek == DateTime.now().getWeek + 1 && deadline.year==DateTime.now().year) {
       return globals.nextWeek;
     } else if (deadline.isThisMonth) {
       return globals.thisMonth;
