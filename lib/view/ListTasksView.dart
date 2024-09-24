@@ -1,3 +1,4 @@
+import 'package:first_app/widget/ListAllTaskWidget.dart';
 import 'package:first_app/widget/ListTaskWidget.dart';
 import 'package:flutter/material.dart';
 
@@ -31,7 +32,7 @@ class _ListTasksViewState extends State<ListTasksView> {
           ),
           body: TabBarView(
             children: [
-              ListTaskWidget(),
+              ListAllTaskWidget(),
               ListTaskWidget(),
               ListTaskWidget(),
               ListTaskWidget(),

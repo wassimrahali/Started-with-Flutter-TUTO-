@@ -23,10 +23,9 @@ class _ListTaskWidgetState extends State<ListTaskWidget> {
                 padding: const EdgeInsets.all(8.0),
                 child: Container(
                   decoration: BoxDecoration(
-                      color: Colors.lightGreen,
+                      color: Colors.purple,
                       border: Border.all(
-                        color: Colors.black,
-
+                        color: Colors.white,
                       ),
                       borderRadius: BorderRadius.circular(10)
                   ),
