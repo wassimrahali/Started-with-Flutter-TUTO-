@@ -1,6 +1,5 @@
-# first_app
+# ToDo-flutter-app
 
-A new Flutter project.
 
 ![image](https://github.com/user-attachments/assets/730b80e4-419e-4ced-8808-a7dd0533cb89)
 
