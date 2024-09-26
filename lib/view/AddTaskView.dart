@@ -12,16 +12,12 @@ class AddTaskView extends StatefulWidget {
   State<AddTaskView> createState() => _AddTaskViewState();
 }
 
-DateTime _selectedDay = DateTime.now();
-DateTime _focusedDay = DateTime.now();
-final _formKey = GlobalKey<FormState>();
-final title = TextEditingController();
-final description = TextEditingController();
-
 class _AddTaskViewState extends State<AddTaskView> {
-  // Move the TextEditingController declarations inside the state class
-  final TextEditingController title = TextEditingController();
-  final TextEditingController description = TextEditingController();
+  DateTime _selectedDay = DateTime.now();
+  DateTime _focusedDay = DateTime.now();
+  final _formKey = GlobalKey<FormState>();
+  final TextEditingController titleController = TextEditingController();
+  final TextEditingController descriptionController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -29,12 +25,12 @@ class _AddTaskViewState extends State<AddTaskView> {
       builder: (context, model, child) {
         return Scaffold(
           appBar: AppBar(
-            title: Text("Add new Task",
-              style: TextStyle(color: Colors.white), // Text color to white
+            title: Text(
+              "Add new Task",
+              style: TextStyle(color: Colors.white),
             ),
-
-            backgroundColor: Theme.of(context).primaryColor, // Use primaryColor for responsive background
-            iconTheme: const IconThemeData(color: Colors.white), // Previous icon color set to white
+            backgroundColor: Theme.of(context).primaryColor,
+            iconTheme: const IconThemeData(color: Colors.white),
           ),
           body: SingleChildScrollView(
             child: Form(
@@ -46,9 +42,7 @@ class _AddTaskViewState extends State<AddTaskView> {
                     firstDay: DateTime.utc(2010, 10, 16),
                     lastDay: DateTime.utc(2030, 3, 14),
                     focusedDay: _focusedDay,
-                    selectedDayPredicate: (day) {
-                      return isSameDay(_selectedDay, day);
-                    },
+                    selectedDayPredicate: (day) => isSameDay(_selectedDay, day),
                     onDaySelected: (selectedDay, focusedDay) {
                       setState(() {
                         _selectedDay = selectedDay;
@@ -56,34 +50,35 @@ class _AddTaskViewState extends State<AddTaskView> {
                       });
                     },
                     calendarBuilders: CalendarBuilders(
-                      markerBuilder: (context, datetime, events) {
-                        return model.countTasksByDate(datetime) > 0 ?Container(
+                      markerBuilder: (context, dateTime, events) {
+                        int taskCount = model.countTasksByDate(dateTime);
+                        return taskCount > 0
+                            ? Container(
                           width: 20,
                           height: 15,
                           decoration: BoxDecoration(
-                            color: globals
-                                .primaries[model.countTasksByDate(datetime)],
+                            color: globals.primaries[taskCount],
                             borderRadius: BorderRadius.circular(4.0),
                           ),
                           child: Center(
                             child: Text(
-                              model.countTasksByDate(datetime).toString(),
+                              taskCount.toString(),
                               style: TextStyle(color: Colors.white),
                             ),
                           ),
-                        ):Container();
+                        )
+                            : Container();
                       },
-                      selectedBuilder: (context, _datetime, _focusedDay) {
-                        return Container (
+                      selectedBuilder: (context, dateTime, focusedDay) {
+                        return Container(
                           decoration: BoxDecoration(
                             color: globals.primaries[5],
                             borderRadius: BorderRadius.circular(4.0),
                           ),
-                          margin: EdgeInsets.symmetric(
-                              vertical: 4.0, horizontal: 10.0),
+                          margin: EdgeInsets.symmetric(vertical: 4.0, horizontal: 10.0),
                           child: Center(
                             child: Text(
-                              _datetime.day.toString(),
+                              dateTime.day.toString(),
                               style: TextStyle(color: Colors.white),
                             ),
                           ),
@@ -94,29 +89,14 @@ class _AddTaskViewState extends State<AddTaskView> {
                   Padding(
                     padding: const EdgeInsets.all(18.0),
                     child: TextFormField(
-                      controller: title,
+                      controller: titleController,
                       maxLength: 100,
                       decoration: InputDecoration(
                         hintText: "Enter Task Title",
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(5.0),
-                          borderSide:
-                              BorderSide(color: Colors.blue, width: 2.0),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(5.0),
-                          borderSide:
-                              BorderSide(color: Colors.blue, width: 2.0),
-                        ),
-                        errorBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(5.0),
-                          borderSide: BorderSide(color: Colors.red, width: 2.0),
-                        ),
-                        focusedErrorBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(5.0),
-                          borderSide:
-                              BorderSide(color: Colors.purple, width: 2.0),
-                        ),
+                        focusedBorder: _outlineInputBorder(),
+                        enabledBorder: _outlineInputBorder(),
+                        errorBorder: _outlineInputBorder(color: Colors.red),
+                        focusedErrorBorder: _outlineInputBorder(color: Colors.purple),
                       ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
@@ -129,31 +109,16 @@ class _AddTaskViewState extends State<AddTaskView> {
                   Padding(
                     padding: const EdgeInsets.all(18.0),
                     child: TextFormField(
-                      controller: description,
+                      controller: descriptionController,
                       maxLength: 500,
                       maxLines: 7,
                       minLines: 5,
                       decoration: InputDecoration(
                         hintText: "Enter a Description (optional)",
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(5.0),
-                          borderSide:
-                              BorderSide(color: Colors.blue, width: 2.0),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(5.0),
-                          borderSide:
-                              BorderSide(color: Colors.blue, width: 2.0),
-                        ),
-                        errorBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(5.0),
-                          borderSide: BorderSide(color: Colors.red, width: 2.0),
-                        ),
-                        focusedErrorBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(5.0),
-                          borderSide:
-                              BorderSide(color: Colors.purple, width: 2.0),
-                        ),
+                        focusedBorder: _outlineInputBorder(),
+                        enabledBorder: _outlineInputBorder(),
+                        errorBorder: _outlineInputBorder(color: Colors.red),
+                        focusedErrorBorder: _outlineInputBorder(color: Colors.purple),
                       ),
                     ),
                   ),
@@ -164,19 +129,16 @@ class _AddTaskViewState extends State<AddTaskView> {
           floatingActionButton: FloatingActionButton(
             onPressed: () {
               if (_formKey.currentState!.validate()) {
-                Task _newTask =
-                    Task(title.text, false, description.text, _focusedDay);
-                model.addTasks(_newTask);
+                Task newTask = Task(titleController.text, false, descriptionController.text, _focusedDay);
+                model.addTasks(newTask);
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(content: Text('Task Saved ...')),
                 );
                 Navigator.pushReplacementNamed(context, 'listTasks');
               }
-
             },
-            child: const Icon(Icons.done, color: Colors.white), // Icon color set to white
-            backgroundColor: Theme.of(context).primaryColor, // Use primaryColor for button background
-
+            child: const Icon(Icons.done, color: Colors.white),
+            backgroundColor: Theme.of(context).primaryColor,
           ),
         );
       },
@@ -185,8 +147,15 @@ class _AddTaskViewState extends State<AddTaskView> {
 
   @override
   void dispose() {
-    title.dispose();
-    description.dispose();
+    titleController.dispose();
+    descriptionController.dispose();
     super.dispose();
+  }
+
+  OutlineInputBorder _outlineInputBorder({Color color = Colors.blue}) {
+    return OutlineInputBorder(
+      borderRadius: BorderRadius.circular(5.0),
+      borderSide: BorderSide(color: color, width: 2.0),
+    );
   }
 }
