@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:first_app/libary/globals.dart' as globals;
-
 import '../provider/TaskProvider.dart';
+import 'package:first_app/libary/globals.dart' as globals;
 
 class ListAllTaskWidget extends StatefulWidget {
   const ListAllTaskWidget({super.key});
@@ -26,17 +25,13 @@ class _ListAllTaskWidgetState extends State<ListAllTaskWidget> {
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
                   globals.taskCategoryNames[key]!,
-                  style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 18,
-                    color: Colors.black, // Set category title color to white
-                  ),
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
                 ),
               ),
               ListView.builder(
                 shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(), // Prevent scrolling in the inner list
-                itemCount: model.todoTasks[key]?.length ?? 0, // Dynamic count based on key
+                physics: NeverScrollableScrollPhysics(),
+                itemCount: model.todoTasks[key]?.length ?? 0,
                 itemBuilder: (BuildContext context, int innerIndex) {
                   final task = model.todoTasks[key]![innerIndex];
                   return Padding(
@@ -52,19 +47,23 @@ class _ListAllTaskWidgetState extends State<ListAllTaskWidget> {
                       child: CheckboxListTile(
                         title: Text(
                           task.title,
-                          style: const TextStyle(color: Colors.white), // Set task title color to white
-                        ),
-                        subtitle: Text(
-                          task.deadline.toString(),
-                          style: const TextStyle(color: Colors.white), // Set deadline text to white
+                          style: TextStyle(color: Colors.white), // Text color to white
                         ),
                         value: task.status,
+                        subtitle: Text(
+                          task.deadline.toString(),
+                          style: TextStyle(color: Colors.white), // Subtitle color to white
+                        ),
                         onChanged: (bool? value) {
-                          model.markAsDone(key, innerIndex);
+                          if (value == false) {
+                            // Remove the task when unchecked
+                            model.removeTask(key, innerIndex);
+                          } else {
+                            model.markAsDone(key, innerIndex);
+                          }
+                          print(task.status);
                         },
                         controlAffinity: ListTileControlAffinity.leading,
-                        activeColor: Colors.white, // Set the checkmark's border color to white
-                        checkColor: Colors.purple, // Set the inside check color to purple
                       ),
                     ),
                   );

@@ -55,6 +55,12 @@ class TaskModel extends ChangeNotifier {
     loadTasks();
   }
 
+  void removeTask(String key, int index) {
+    if (_todoTasks.containsKey(key) && index < _todoTasks[key]!.length) {
+      _todoTasks[key]!.removeAt(index);
+      notifyListeners(); // Notify listeners to update the UI
+    }
+  }
   // Save tasks to shared preferences
   Future<void> saveTasks() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
