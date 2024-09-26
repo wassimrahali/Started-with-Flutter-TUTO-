@@ -29,8 +29,12 @@ class _AddTaskViewState extends State<AddTaskView> {
       builder: (context, model, child) {
         return Scaffold(
           appBar: AppBar(
-            title: Text("Add new Task"),
-            backgroundColor: Colors.teal,
+            title: Text("Add new Task",
+              style: TextStyle(color: Colors.white), // Text color to white
+            ),
+
+            backgroundColor: Theme.of(context).primaryColor, // Use primaryColor for responsive background
+            iconTheme: const IconThemeData(color: Colors.white), // Previous icon color set to white
           ),
           body: SingleChildScrollView(
             child: Form(
@@ -168,8 +172,11 @@ class _AddTaskViewState extends State<AddTaskView> {
                 );
                 Navigator.pushReplacementNamed(context, 'listTasks');
               }
+
             },
-            child: Icon(Icons.done),
+            child: const Icon(Icons.done, color: Colors.white), // Icon color set to white
+            backgroundColor: Theme.of(context).primaryColor, // Use primaryColor for button background
+
           ),
         );
       },
